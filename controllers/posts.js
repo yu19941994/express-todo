@@ -19,13 +19,14 @@ const posts = {
                     likes: body.likes
                 }
             )
-            handleSuccess(res, 'success', newPost);
+            handleSuccess(res, newPost);
         } catch (error) {
             handleError(res, error);
         }
     },
-    async modifyPosts(req, res, id) {
+    async modifyPost(req, res) {
         try {
+            const id = req.params.id
             const content = req.body.content;
             if (content !== undefined) {
                 await Post.findByIdAndUpdate(id, { content })
@@ -42,9 +43,10 @@ const posts = {
         await Post.deleteMany({});
         handleSuccess(res, []);
     },
-    async deletePost(req, res, id) {
-        await Post.findByIdAndDelete(id);
-        handleSuccess(res, null);
+    async deletePost(req, res) {
+        const id = req.params.id;
+        const posts = await Post.findByIdAndDelete(id);
+        handleSuccess(res, posts);
     }
 }
 
