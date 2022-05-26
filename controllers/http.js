@@ -1,16 +1,15 @@
-const headers = require('../service/headers');
-
 const http = {
     cors (res) {
-        res.writeHead(200, headers);
+        res.send({
+            'status': true,
+        })
         res.end();
     },
     notFound (res) {
-        res.writeHead(404, headers);
-        res.write(JSON.stringify({
+        res.status(404).send({
             'status': 'false',
             'message': '無此網路路由'
-        }))
+        })
         res.end();
     }
 }
