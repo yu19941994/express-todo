@@ -11,7 +11,7 @@ const posts = {
     async createPost(req, res) {
         try {
             const { body } = req;
-            if (!body.content) {
+            if (!!body.content) {
                 const newPost = await Post.create(
                     {
                         content: body.content,
@@ -33,7 +33,7 @@ const posts = {
             const id = req.params.id
             const content = req.body.content;
             const isIdExist = await Post.findOne({_id: id});
-            if ((!!isIdExist) && (!content)) {
+            if ((!!isIdExist) && (!!content)) {
                 await Post.findByIdAndUpdate(id, { content })
                 const posts = await Post.find();
                 handleSuccess(res, posts);
