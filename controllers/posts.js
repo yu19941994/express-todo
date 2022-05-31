@@ -11,15 +11,17 @@ const posts = {
     async createPost(req, res) {
         try {
             const { body } = req;
-            const newPost = await Post.create(
-                {
-                    content: body.content,
-                    image: body.image,
-                    name: body.name,
-                    likes: body.likes
-                }
-            )
-            handleSuccess(res, newPost);
+            if (!body.content) {
+                const newPost = await Post.create(
+                    {
+                        content: body.content,
+                        image: body.image,
+                        name: body.name,
+                        likes: body.likes
+                    }
+                )
+                handleSuccess(res, newPost);
+            }
         } catch (error) {
             handleError(res, error);
         }
@@ -28,7 +30,7 @@ const posts = {
         try {
             const id = req.params.id
             const content = req.body.content;
-            if (content !== undefined) {
+            if (!content) {
                 await Post.findByIdAndUpdate(id, { content })
                 const posts = await Post.find();
                 handleSuccess(res, posts);
