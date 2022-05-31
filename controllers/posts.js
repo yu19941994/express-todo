@@ -21,6 +21,8 @@ const posts = {
                     }
                 )
                 handleSuccess(res, newPost);
+            } else {
+                handleError(res);
             }
         } catch (error) {
             handleError(res, error);
